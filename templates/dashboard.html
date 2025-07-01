@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Client Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f6f6f6;
+    }
+    header {
+      background-color: #004d40;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+    .hero {
+      background: #e0f2f1;
+      padding: 30px;
+      text-align: center;
+      color: #004d40;
+    }
+    .hero h2 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      padding: 20px;
+    }
+    .card h3 {
+      margin: 10px 0;
+      font-size: 18px;
+      color: #333;
+    }
+    .card a {
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #00796b;
+      color: white;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+    .card a:hover {
+      background: #004d40;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Client Monitor Dashboard</h1>
+    <div>Admin Panel</div>
+  </header>
+
+  <div class="hero">
+    <h2>Live Connected Clients</h2>
+    <p>Click a client to start viewing their screen in real-time.</p>
+  </div>
+
+  <div class="grid">
+    {% for name in clients %}
+      <div class="card">
+        <img src="https://cdn-icons-png.flaticon.com/512/4703/4703650.png" alt="Preview" style="border-radius: 8px;" />
+        <h3>{{ name }}</h3>
+        <a href="{{ url_for('stream', client_name=name) }}">View Screen</a>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

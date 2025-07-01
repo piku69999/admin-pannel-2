@@ -1,0 +1,8 @@
+flask
+pyotp
+pillow
+opencv-python
+numpy
+pyzmq
+requests
+gunicorn

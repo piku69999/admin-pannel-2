@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Stream - {{ client_name }}</title>
+  <script>
+    function refreshImage() {
+      const img = document.getElementById('screen');
+      img.src = "/screenshot/{{ client_name }}?t=" + new Date().getTime();
+    }
+    setInterval(refreshImage, 1000);
+  </script>
+</head>
+<body style="text-align: center;">
+  <h2>Streaming: {{ client_name }}</h2>
+  <img id="screen" src="/screenshot/{{ client_name }}" width="90%">
+</body>
+</html>
