@@ -5,8 +5,7 @@ import time
 import os
 
 app = Flask(__name__)
-TOTP_SECRET = os.getenv('TOTP_SECRET', '3U3RBZ25MJ7D5F2HFUE2WCUOFXJ7RT3L')  # fallback if not set
-
+TOTP_SECRET = os.environ['TOTP_SECRET']
 SESSION = {'authenticated': False}
 CLIENT_IMAGES = {}
 
