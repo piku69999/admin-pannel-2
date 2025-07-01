@@ -1,36 +1,21 @@
 from flask import Flask, request, render_template, redirect, send_file, make_response
 import io
-import pyotp
 import time
-import os
 
 app = Flask(__name__)
-TOTP_SECRET = os.environ['TOTP_SECRET']
-SESSION = {'authenticated': False}
 CLIENT_IMAGES = {}
 
-@app.route('/', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        code = request.form.get('code')
-        totp = pyotp.TOTP(TOTP_SECRET)
-        if totp.verify(code):
-            SESSION['authenticated'] = True
-            return redirect('/dashboard')
-        return render_template('login.html', error='Invalid code')
-    return render_template('login.html')
+@app.route('/')
+def home():
+    return redirect('/dashboard')
 
 @app.route('/dashboard')
 def dashboard():
-    if not SESSION.get('authenticated'):
-        return redirect('/')
     clients = list(CLIENT_IMAGES.keys())
     return render_template('dashboard.html', clients=clients)
 
 @app.route('/stream/<client_name>')
 def stream(client_name):
-    if not SESSION.get('authenticated'):
-        return redirect('/')
     return render_template('stream.html', client_name=client_name)
 
 @app.route('/upload', methods=['POST'])
@@ -50,7 +35,6 @@ def screenshot(client_name):
     if client_name in CLIENT_IMAGES:
         img_data = CLIENT_IMAGES[client_name]['image']
         response = make_response(send_file(io.BytesIO(img_data), mimetype='image/jpeg'))
-        # Prevent caching so the browser always fetches latest image
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
